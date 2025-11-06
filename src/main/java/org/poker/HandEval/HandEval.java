@@ -58,11 +58,10 @@ public abstract class HandEval {
     public abstract int compareHands(ArrayList<Card> a, ArrayList<Card> b);
 
     public ArrayList<Double> utilityFromHistory(AbstractHistory history) {
-        KuhnPokerHistory h = (KuhnPokerHistory) history;
 
         ArrayList<ArrayList<Card>> hands = new ArrayList<>();
-        hands.add(h.getHand(0));
-        hands.add(h.getHand(1));
+        hands.add(history.getHand(0));
+        hands.add(history.getHand(1));
 
         // Base contributions: antes
         ArrayList<Double> contributions = new ArrayList<>();
@@ -70,7 +69,7 @@ public abstract class HandEval {
         contributions.add(1.0);
 
         // Track additional bets/calls
-        for (String action : h.getActions()) {
+        for (String action : history.getActions()) {
             if (action.endsWith("Bet") || action.endsWith("Call")) {
                 int p = action.startsWith("P0:") ? 0 : 1;
                 contributions.set(p, contributions.get(p) + 1.0);
@@ -78,7 +77,7 @@ public abstract class HandEval {
         }
 
         // Handle folding
-        for (String action : h.getActions()) {
+        for (String action : history.getActions()) {
             if (action.endsWith("Fold")) {
                 ArrayList<Double> utils = new ArrayList<>();
                 utils.add(0.0);
