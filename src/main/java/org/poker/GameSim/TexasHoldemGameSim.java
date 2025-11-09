@@ -5,10 +5,12 @@ import org.poker.CFR.History.AbstractHistory;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 public class TexasHoldemGameSim extends GameSim {
 
     private ArrayList<Card> deck;
+    private Random rng = new Random();
 
     public TexasHoldemGameSim() {
         resetDeck();
@@ -123,6 +125,17 @@ public class TexasHoldemGameSim extends GameSim {
         throw new UnsupportedOperationException("Unimplemented method 'randomDeal'");
     }
 
+
+    /**
+     * Possible addition?
+     * @param history the game history object
+     * @return the current betting round as a string
+     */
+    public String getCurrentBettingRound(AbstractHistory history) {
+        //TODO Depending on Community cards
+        throw new UnsupportedOperationException("Unimplemented method 'getCurrentBettingRound'");
+    }
+
     /**
      * generates cards 2 through Ace for a suit
      * @param suit the suit to generate cards for
@@ -133,13 +146,25 @@ public class TexasHoldemGameSim extends GameSim {
         }
     }
 
+    /**
+     * Sets a random seed for reproducible testing.
+     * @param seed the seed
+     */
+    public void setSeed(long seed) {
+        rng = new Random(seed);
+    }
+
+
+    /**
+     * resets the Deck into its shuffled state.
+     */
     private void resetDeck() {
         deck = new ArrayList<>();
         loadSuit('H'); // hearts
         loadSuit('D'); // diamonds
         loadSuit('S'); // spades
         loadSuit('C'); // clubs
-        // shuffle here
+        Collections.shuffle(deck, rng); //reproducible testing
     }
 }
 
